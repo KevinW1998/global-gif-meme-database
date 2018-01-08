@@ -3,10 +3,15 @@ from bottle import route, run, template, static_file
 
 @route('/')
 def root():
-    return static_file('view/index.tpl', '.')
+    return template('index.tpl')
+
+@route('/upload_gif')
+def upload_gif():
+    return template('upload_gif')
 
 @route('/hello/<name>')
 def index(name):
     return template('<b>Hello {{name}}</b>!', name=name)
 
-run(host='localhost', port=8080)
+if __name__ == '__main__':
+    run(host='localhost', port=8080)
