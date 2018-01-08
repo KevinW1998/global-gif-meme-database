@@ -6,8 +6,17 @@ class MemeDatabase:
         self.__conn = sqlite3.connect('gif_database.db')
         # TODO: Get last id from the database
         self.__next_free_id = 0
+
+        # Create TABLE if not exists
         self.__conn.execute(
             'CREATE TABLE IF NOT EXISTS file_references(id INTEGER PRIMARY KEY, filename TEXT)')
+
+        # Get last id
+        cur = self.__conn.cursor()
+        cur.execute("SELECT id FROM file_references ORDER BY id DESC LIMIT 1")
+        rows = cur.fetchall()
+        if len(rows) > 0:
+            self.__next_free_id = rows[0][0] + 1
 
     def get_next_free_id(self):
         return self.__next_free_id
@@ -30,16 +39,21 @@ class MemeDatabase:
         self.__next_free_id += 1
 
     def get_all_file_references(self):
-        self.__conn.execute("SELECT * FROM file_references")
-        rows = self.__conn.fetchall()
+        cur = self.__conn.cursor()
+        cur.execute("SELECT * FROM file_references")
+        return cur.fetchall()
 
-        for row in rows:
-            print(row)
-
+    def get_file_reference_or_none(self, id):
+        cur = self.__conn.cursor()
+        cur.execute("SELECT * FROM file_references WHERE id = ?", (id,))
+        return cur.fetchone()
 
     def remove_file_reference(self, id):
-        self.__conn.execute(
-            'DELETE FROM file_references WHERE id = ?', (id,)
-        )
-        pass
-
+        try:
+            self.__conn.execute(
+                'DELETE FROM file_references WHERE id = ?', (id,)
+            )
+        except sqlite3.Error as e:
+            print(e)
+            return False
+        return True

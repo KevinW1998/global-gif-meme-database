@@ -6,5 +6,8 @@
 </head>
 <body>
 
+<h1>{{'New' if new_file else ''}} Image with id {{id}}</h1>
+<img alt="{{id}}" src="{{meme}}">
+
 </body>
 </html>
