@@ -9,9 +9,14 @@ def root():
 def upload_gif():
     return template('upload_gif')
 
-@route('/hello/<name>')
-def index(name):
-    return template('<b>Hello {{name}}</b>!', name=name)
+@route('/view_gif')
+def view_gif():
+    return template('view_gif')
+
+@route('/remove_gif')
+def remove_gif():
+    return template('remove_gif')
+
 
 if __name__ == '__main__':
     run(host='localhost', port=8080)
