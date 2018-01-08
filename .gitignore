@@ -154,8 +154,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-__pycache__/*
-
 # Additional
 gif_database.db
 views/dynamic/*
