@@ -166,6 +166,57 @@ Das Strategy Pattern wird verwendet wenn ein Objekt mehrere Arten sich in bestim
 	
 \end{itemize}
 
+\section{Umsetzung}
+Für den Anwendungsbeispiel wurde eine Bilddatenbank ausgewählt. Dabei hat der Nutzer die Möglichkeit Bilder hochzuladen, anzuschauen und zu löschen. Für die Datenbank wurde sqlite3 ausgewählt.
+
+\subsection{View}
+Bottle bietet die \verb|Simple Template Engine| an um die Views zu definieren. 
+
+\subsubsection{Hauptseite - index.tpl}
+Für die Hauptseite wurde eine \verb|index.tpl| erstellt, die alle hochgeladene Bilder in einer Vorschau anzeigt. Dabei wird von Python alle hochgeladen Bilder an die template engine übergeben, die dann die Inhalte rendert.
+
+Außerdem kann auf der Hauptseite neue Bilder hochgeladen werden. Dazu wurde in HTML eine Forumlarmaske erstellt, wo die zu hochladenen Bilder ausgewählt werden können.
+
+% TODO: Show main page screenshot
+
+\subsubsection{Anzeigeseite - view\_gif.tpl}
+Auf dieser Seite kann das Bild im Originalformat und Originalgröße eingesehen werden. Es ist ebenfalls möglich die Bilddatei zu löschen.
+
+% TODO: Show view page screenshot
+
+\subsection{Die Daten}
+
+\subsubsection{Die Bilddateien}
+Die Bilddateien werden alle in einem Ordner gespeichert, da es nicht empfehlenswert ist Binärdaten direkt in einer Datenbank zu speichern. Der Pfad zu dem Bildspeicher wurde in Python definiert.
+
+\subsubsection{Die Datenbank}
+In der Datenbank werden die Dateinamen mit einer ID referenziert. Dadurch ist es möglich schnell Bilddateien aufzufinden. 
+
+\begin{lstlisting}[caption=Datenstruktur in SQL]
+CREATE TABLE IF NOT EXISTS file_references(id INTEGER PRIMARY KEY, filename TEXT)
+\end{lstlisting}
+
+In Python wurde eine Klasse ``MemeDatabase'' erstellt, die die Schnittstelle zur sqlit3-Datenbank definiert. Es wurden Funktionen definiert die es ermöglichen:
+\begin{itemize}
+	\item ... Daten hinzuzufügen (save\_file\_reference)
+	\item ... Daten aufzulisten (get\_all\_file\_references)
+	\item ... Daten zu finden (get\_file\_reference\_or\_none)
+	\item ... Daten zu löschen (remove\_file\_reference)
+\end{itemize}
+
+Durch die Datenbank ist es ebenfalls möglich weitere Spalten für später zu definieren. So könnten Spalten wie ``Titel'' oder ``Datum'' definiert werden. 
+
+\subsection{Die ausführbare Datei main.py}
+Die main.py erstellt eine neue Bottle-Instanz, wo alle ``Routen'' definiert werden:
+\begin{lstlisting}[caption=Routen]
+
+\end{lstlisting}
+
+
+
+
+
+
 \clearpage
 \section{resources}
 https://sourcemaking.com/design\_patterns
