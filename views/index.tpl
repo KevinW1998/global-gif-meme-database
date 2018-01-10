@@ -60,7 +60,6 @@
               <input type="file" name="upload" class="btn btn-primary" accept="image/*" style="width:200;height:100">
               <input type="submit" value="Start upload" class="btn btn-secondary" style="width:200;height:100">
             </form>
-
         </p>
       </div>
     </section>
@@ -74,7 +73,11 @@
             <img  width="350"  alt="{{meme[0]}}" src="{{meme[1]}}" class="rounded img-thumbnail" >
             <div class="card-block">
                 <h6 class="card-title">Image {{meme[0]}}</h6>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <form action="/remove_gif/{{meme[0]}}" method="post" enctype="multipart/form-data">
+                  <input type="submit" value="Delete" class="btn btn-secondary" >
+                </form>
+
+
               </div>
           </div>
 
