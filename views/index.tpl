@@ -30,14 +30,14 @@
         <div class="row">
           <div class="col-sm-8 py-4">
             <h4 class="text-white">About</h4>
-            <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+            <h5 class="text-muted">This is a completely useless drop-down menue :)</h5><br>
+            <h5 class="text-muted">But you are amazed by the gui aren't you? ... Thank us with a "sehr gut"</h5>
           </div>
           <div class="col-sm-4 py-4">
             <h4 class="text-white">Contact</h4>
             <ul class="list-unstyled">
-              <li><a href="#" class="text-white">Follow on Twitter</a></li>
-              <li><a href="#" class="text-white">Like on Facebook</a></li>
-              <li><a href="#" class="text-white">Email me</a></li>
+              <li><a href="#" class="text-white">dsunaric@student.tgm.ac.at</a></li>
+              <li><a href="#" class="text-white">kwaldock@student.tgm.ac.at</a></li>
             </ul>
           </div>
         </div>
@@ -45,7 +45,7 @@
     </div>
     <div class="navbar navbar-inverse bg-inverse">
       <div class="container d-flex justify-content-between">
-        <a href="#" class="navbar-brand">Album</a>
+        <a href="#" class="navbar-brand">Memes</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,11 +54,13 @@
 
     <section class="jumbotron text-center">
       <div class="container">
-        <h1 class="jumbotron-heading">Album example</h1>
-        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-        <p>
-          <a href="#" class="btn btn-primary">Main call to action</a>
-          <a href="#" class="btn btn-secondary">Secondary action</a>
+        <h1 class="jumbotron-heading">Welcome to the new IT meme page</h1>
+        <p class="lead text-muted">This is the new sick meme page ! Select a meme and upload it
+            <form action="/upload_gif" method="post" enctype="multipart/form-data">
+              <input type="file" name="upload" class="btn btn-primary" accept="image/*" style="width:200;height:100">
+              <input type="submit" value="Start upload" class="btn btn-secondary" style="width:200;height:100">
+            </form>
+
         </p>
       </div>
     </section>
@@ -67,11 +69,17 @@
       <div class="container">
 
         <div class="row">
-
-          <div class="card">
-            <img data-src="static/images/holder.svg" class="rounded img-thumbnail" alt="">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            % for meme in memes:
+          <div class="card" >
+            <img  width="350"  alt="{{meme[0]}}" src="{{meme[1]}}" class="rounded img-thumbnail" >
+            <div class="card-block">
+                <h6 class="card-title">Image {{meme[0]}}</h6>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
           </div>
+
+            % end
+
         </div>
 
       </div>
@@ -84,21 +92,19 @@
         <th>Preview</th>
         <th>Link</th>
     </tr>
+
     % for meme in memes:
     <tr>
+
         <td>Image {{meme[0]}}</td>
         <td><img width="100" height="100" alt="{{meme[0]}}" src="{{meme[1]}}"></td>
         <td><a href="/view_gif/{{meme[0]}}">Full link</a></td>
     </tr>
-    % end
+    %end
 </table>
 
 <br>
 <hr>
-<form action="/upload_gif" method="post" enctype="multipart/form-data">
-  Select a file: <input type="file" name="upload" accept="image/*"><br>
-  <input type="submit" value="Start upload">
-</form>
 
 </body>
 </html>
