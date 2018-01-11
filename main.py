@@ -11,8 +11,6 @@ if __name__ == '__main__':
 
     app = application = Bottle()
     db = MemeDatabase()
-    print("Startup... all files:")
-    print(list(map(lambda file_ref: (file_ref[0], path_for_display + file_ref[1]), db.get_all_file_references())))
 
     @app.route('/static/images/<picture>')
     def serve_pictures(picture):
@@ -30,8 +28,6 @@ if __name__ == '__main__':
     def root():
         # Get all path references and add path prefix
         memes = list(map(lambda file_ref: (str(file_ref[0]), path_for_display + file_ref[1]), db.get_all_file_references()))
-        print("Showing memes")
-        print(memes)
         return template('index.tpl', memes=memes)
 
     @app.route('/upload_gif', method='POST')
@@ -66,13 +62,12 @@ if __name__ == '__main__':
         return template('view_gif', id=file_ref[0], meme=path_for_display + file_ref[1], new_file=False)
 
 
-    # TODO: How to handle relative?
     @app.route('/remove_gif/<id>')
     def remove_gif(id):
         success = db.remove_file_reference(id)
         if not success:
             abort(404)
-        return template('remove_gif')
+        return root()  # Show the main page
 
     @app.error(404)
     def error404(error):

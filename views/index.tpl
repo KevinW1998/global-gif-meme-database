@@ -70,14 +70,12 @@
         <div class="row">
             % for meme in memes:
           <div class="card" >
-            <img  width="350"  alt="{{meme[0]}}" src="{{meme[1]}}" class="rounded img-thumbnail" >
+            <a href="/view_gif/{{meme[0]}}"><img width="350"  alt="{{meme[0]}}" src="{{meme[1]}}" class="rounded img-thumbnail" ></a>
             <div class="card-block">
                 <h6 class="card-title">Image {{meme[0]}}</h6>
-                <form action="/remove_gif/{{meme[0]}}" method="post" enctype="multipart/form-data">
+                <form action="/remove_gif/{{meme[0]}}" method="get" enctype="multipart/form-data">
                   <input type="submit" value="Delete" class="btn btn-secondary" >
                 </form>
-
-
               </div>
           </div>
 
@@ -88,7 +86,7 @@
       </div>
     </div>
 
-
+<!--
 <table style="border: 1px solid black">
     <tr>
         <th>Name</th>
@@ -106,8 +104,10 @@
     %end
 </table>
 
+
+
 <br>
 <hr>
-
+-->
 </body>
 </html>

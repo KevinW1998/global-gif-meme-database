@@ -51,7 +51,9 @@ Für die Hauptseite wurde eine \verb|index.tpl| erstellt, die alle hochgeladene 
 
 Außerdem kann auf der Hauptseite neue Bilder hochgeladen werden. Dazu wurde in HTML eine Forumlarmaske erstellt, wo die zu hochladenen Bilder ausgewählt werden können.
 
-% TODO: Show main page screenshot
+\begin{center}
+	\includegraphics[width=1.0\linewidth]{images/a1.png}
+\end{center}
 
 \subsubsection{Anzeigeseite - view\_gif.tpl}
 Auf dieser Seite kann das Bild im Originalformat und Originalgröße eingesehen werden. Es ist ebenfalls möglich die Bilddatei zu löschen.
@@ -62,6 +64,11 @@ Auf dieser Seite kann das Bild im Originalformat und Originalgröße eingesehen 
 
 \subsubsection{Die Bilddateien}
 Die Bilddateien werden alle in einem Ordner gespeichert, da es nicht empfehlenswert ist Binärdaten direkt in einer Datenbank zu speichern. Der Pfad zu dem Bildspeicher wurde in Python definiert.
+
+\begin{center}
+	\includegraphics[width=1.0\linewidth]{images/a3.png}
+\end{center}
+
 
 \subsubsection{Die Datenbank}
 In der Datenbank werden die Dateinamen mit einer ID referenziert. Dadurch ist es möglich schnell Bilddateien aufzufinden. 
@@ -81,11 +88,44 @@ In Python wurde eine Klasse ``MemeDatabase'' erstellt, die die Schnittstelle zur
 Durch die Datenbank ist es ebenfalls möglich weitere Spalten für später zu definieren. So könnten Spalten wie ``Titel'' oder ``Datum'' definiert werden. 
 
 \subsection{Die ausführbare Datei main.py}
-Die main.py erstellt eine neue Bottle-Instanz, wo alle ``Routen'' definiert werden:
-\begin{lstlisting}[caption=Routen]
+Die main.py erstellt eine neue Bottle-Instanz und definiert alle ``Routen'':
+\begin{lstlisting}[caption=Applikationinstanz und Beispiel für Routen]
+app = application = Bottle()
+db = MemeDatabase()
 
+<weiterer Code>
+
+@app.route('/remove_gif/<id>')
+def remove_gif(id):
+	success = db.remove_file_reference(id)
+	if not success:
+		abort(404)
+	return root()  # Show the main page
 \end{lstlisting}
 
+Damit auch alle Bildressourcen zugreifbar sind müssen auch diese routen definiert werden, da Bottle nicht automatisch die Routen zum Dateisystem definiert.
+\begin{lstlisting}[caption=Routen zur Bildressourcen]
+@app.route('/static/images/<picture>')
+def serve_pictures(picture):
+    return static_file(picture, root='views/static/images')
+    
+@app.route('/static/css/<css>')
+def css_pictures(css):
+    return static_file(css, root='views/static/css')
+    
+@app.route('/dynamic/images/<image>')
+def serve_dyn_image(image):
+    return static_file(image, root='views/dynamic/images')
+\end{lstlisting}
+
+Damit kann von jeder Seite auf die Ressource zugegriffen werden.
+
+\subsection{Ausführung}
+Für das Ausführen muss nach dem Starten von main.py die Seite \verb|localhost:8083| aufgerufen werden. Man sieht, dass die Aufrufe funktionieren, sowohl im Browser als auch in der Konsole:
+
+\begin{center}
+	\includegraphics[width=1.0\linewidth]{images/a2.png}
+\end{center}
 
 
 
